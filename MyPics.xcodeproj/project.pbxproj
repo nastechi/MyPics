@@ -15,7 +15,7 @@
 		099CFF702A05226700481515 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099CFF6F2A05226700481515 /* Constants.swift */; };
 		099CFF722A05258700481515 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099CFF712A05258700481515 /* DetailsViewController.swift */; };
 		099CFF752A05271B00481515 /* GridViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099CFF742A05271B00481515 /* GridViewModel.swift */; };
-		099CFF7B2A05355500481515 /* GridTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099CFF7A2A05355500481515 /* GridTableViewCell.swift */; };
+		099CFF7B2A05355500481515 /* GridCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099CFF7A2A05355500481515 /* GridCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,7 +29,7 @@
 		099CFF6F2A05226700481515 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		099CFF712A05258700481515 /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 		099CFF742A05271B00481515 /* GridViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridViewModel.swift; sourceTree = "<group>"; };
-		099CFF7A2A05355500481515 /* GridTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridTableViewCell.swift; sourceTree = "<group>"; };
+		099CFF7A2A05355500481515 /* GridCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,9 +64,9 @@
 			children = (
 				099CFF5B2A051FDB00481515 /* AppDelegate.swift */,
 				099CFF5D2A051FDB00481515 /* SceneDelegate.swift */,
-				099CFF7A2A05355500481515 /* GridTableViewCell.swift */,
 				099CFF762A05289700481515 /* ViewModel */,
 				099CFF732A05270600481515 /* ViewControllers */,
+				099CFF7C2A05371900481515 /* Components */,
 				099CFF6F2A05226700481515 /* Constants.swift */,
 				099CFF642A051FDD00481515 /* Assets.xcassets */,
 				099CFF662A051FDD00481515 /* LaunchScreen.storyboard */,
@@ -90,6 +90,14 @@
 				099CFF742A05271B00481515 /* GridViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		099CFF7C2A05371900481515 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				099CFF7A2A05355500481515 /* GridCollectionViewCell.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -164,7 +172,7 @@
 			files = (
 				099CFF602A051FDB00481515 /* GridViewController.swift in Sources */,
 				099CFF5C2A051FDB00481515 /* AppDelegate.swift in Sources */,
-				099CFF7B2A05355500481515 /* GridTableViewCell.swift in Sources */,
+				099CFF7B2A05355500481515 /* GridCollectionViewCell.swift in Sources */,
 				099CFF5E2A051FDB00481515 /* SceneDelegate.swift in Sources */,
 				099CFF752A05271B00481515 /* GridViewModel.swift in Sources */,
 				099CFF702A05226700481515 /* Constants.swift in Sources */,

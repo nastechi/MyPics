@@ -9,7 +9,22 @@ import UIKit
 
 class DetailsViewController: UIViewController {
     
-    init(imageLink: String) {
+    let gridImage: UIImage
+    
+    private lazy var imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = gridImage
+        return imageView
+    }()
+    
+    private lazy var backButton: UIButton = {
+        let button = UIButton()
+        button.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
+        return button
+    }()
+    
+    init(gridImage: UIImage) {
+        self.gridImage = gridImage
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -19,6 +34,28 @@ class DetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        layoutView()
+    }
+
+    @objc private func backButtonPressed() {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    private func layoutView() {
+        view.backgroundColor = UIColor(named: K.Colors.background)
+        view.addSubview(imageView)
+        setupConstrains()
+    }
+    
+    private func setupConstrains() {
+        
+        let multiplier = view.frame.width / gridImage.size.width
+        
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
+        imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
+        imageView.heightAnchor.constraint(equalToConstant: gridImage.size.height * multiplier).isActive = true
     }
 
 }
