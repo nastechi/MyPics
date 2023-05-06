@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct ImageModel {
+class ImageModel {
     
     let url: URL
     let preview: UIImage

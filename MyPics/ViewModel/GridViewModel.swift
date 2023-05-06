@@ -11,11 +11,12 @@ import Combine
 class GridViewModel {
     
     @Published var images = [ImageModel]()
+    private let cache = NSCache<NSString, ImageModel>()
     
     func fetchImages() {
         let session = URLSession(configuration: .default)
         guard let url = URL(string: K.fileLink) else { return }
-        let request = URLRequest(url: url)
+        let request = URLRequest(url: url, cachePolicy: URLRequest.CachePolicy.returnCacheDataElseLoad, timeoutInterval: 15)
         let task = session.dataTask(with: request) { [weak self] data, response, error in
             if let error = error {
                 print(error)
@@ -52,16 +53,22 @@ class GridViewModel {
     
     private func loadImage(link: String, complition: (ImageModel) -> Void) {
         
-        guard let url = URL(string: link) else { return }
-        guard let data = try? Data(contentsOf: url) else { return }
-        guard let image = UIImage(data: data) else { return }
-        guard let preview = getPreview(for: image) else { return }
-        
-        let imageModel = ImageModel(url: url, preview: preview, fullSize: image)
-        complition(imageModel)
+        if let cachedImageModel = cache.object(forKey: link as NSString) {
+            complition(cachedImageModel)
+        } else {
+            guard let url = URL(string: link) else { return }
+            guard let data = try? Data(contentsOf: url) else { return }
+            guard let image = UIImage(data: data) else { return }
+            guard let preview = getPreview(for: image) else { return }
+            
+            let imageModel = ImageModel(url: url, preview: preview, fullSize: image)
+            cache.setObject(imageModel, forKey: link as NSString)
+            
+            complition(imageModel)
+        }
     }
     
-    func getPreview(for image: UIImage) -> UIImage? {
+    private func getPreview(for image: UIImage) -> UIImage? {
         
         let width = UIScreen.main.bounds.width / 3 - 20
         let multiplier = width / image.size.width

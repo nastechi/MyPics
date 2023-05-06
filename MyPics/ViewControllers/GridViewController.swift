@@ -19,12 +19,21 @@ class GridViewController: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         return collectionView
     }()
+    
+    private lazy var loader: UIActivityIndicatorView = {
+        let loader = UIActivityIndicatorView()
+        loader.center = view.center
+        loader.color = UIColor(named: K.Colors.accent)
+        loader.hidesWhenStopped = true
+        loader.startAnimating()
+        return loader
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
-        layoutView()
         setupBindings()
+        layoutView()
         viewModel.fetchImages()
     }
     
@@ -46,19 +55,12 @@ class GridViewController: UIViewController {
                 
                 self?.images = images
                 if self?.images.count ?? 0 > 0 {
+                    self?.loader.stopAnimating()
                     self?.collectionView.reloadData()
                 }
             }
             .store(in: &cancellables)
         }
-    
-    private func bind() {
-        _ = viewModel.$images.sink { [weak self] images in
-            self?.images = images
-            print(images)
-            self?.collectionView.reloadData()
-        }
-    }
     
     private func goToDetailsScreen(image: UIImage) {
         navigationController?.pushViewController(DetailsViewController(gridImage: image), animated: true)
@@ -67,11 +69,13 @@ class GridViewController: UIViewController {
     private func layoutView() {
         view.backgroundColor = UIColor(named: K.Colors.background)
         view.addSubview(collectionView)
+        view.addSubview(loader)
         setupConstrains()
         navigationController?.isToolbarHidden = true
     }
     
     private func setupConstrains() {
+        
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10).isActive = true
