@@ -24,30 +24,41 @@ class GridViewModel {
             guard let data = data else { return }
             guard let dataString = String(data: data, encoding: .utf8) else { return }
             let linksArray = dataString.split(whereSeparator: \.isNewline).map { String($0) }
-            self?.loadImages(links: linksArray)
+            self?.loadImages(links: linksArray) { images in
+                self?.images = images
+            }
         }
         task.resume()
     }
     
-    private func loadImages(links: [String]) {
+    private func loadImages(links: [String], complition: @escaping ([ImageModel]) -> Void) {
         
-        let session = URLSession(configuration: .default)
+        var loadedImages = [ImageModel]()
+        let queue = OperationQueue()
         
         for link in links {
-            guard let url = URL(string: link) else { return }
-            let request = URLRequest(url: url)
-            let task = session.dataTask(with: request) { [weak self] data, response, error in
-                guard error == nil else { return }
-                
-                guard let data = data else { return }
-                guard let image = UIImage(data: data) else { return }
-                guard let preview = self?.getPreview(for: image) else { return }
-                
-                let imageModel = ImageModel(url: url, preview: preview, fullSize: image)
-                self?.images.append(imageModel)
+            let operation = BlockOperation { [weak self] in
+                self?.loadImage(link: link) { image in
+                    loadedImages.append(image)
+                }
             }
-            task.resume()
+            queue.addOperation(operation)
         }
+        
+        queue.addBarrierBlock {
+            complition(loadedImages)
+        }
+    }
+    
+    private func loadImage(link: String, complition: (ImageModel) -> Void) {
+        
+        guard let url = URL(string: link) else { return }
+        guard let data = try? Data(contentsOf: url) else { return }
+        guard let image = UIImage(data: data) else { return }
+        guard let preview = getPreview(for: image) else { return }
+        
+        let imageModel = ImageModel(url: url, preview: preview, fullSize: image)
+        complition(imageModel)
     }
     
     func getPreview(for image: UIImage) -> UIImage? {

@@ -86,7 +86,6 @@ extension GridViewController: UICollectionViewDelegate {
         collectionView.deselectItem(at: indexPath, animated: true)
         navigationController?.pushViewController(DetailsViewController(gridImage: images[indexPath.row].fullSize), animated: true)
     }
-    
 }
 
 extension GridViewController: UICollectionViewDataSource {
