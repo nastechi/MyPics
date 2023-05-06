@@ -14,7 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow(frame: UIScreen.accessibilityFrame())
-        let navigationController = UINavigationController(rootViewController: GridViewController())
+        let navigationController = CustomNavigationController(rootViewController: GridViewController())
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
         return true

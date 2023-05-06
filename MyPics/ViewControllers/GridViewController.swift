@@ -11,7 +11,7 @@ import Combine
 class GridViewController: UIViewController {
     
     private var viewModel = GridViewModel()
-    private var images = [UIImage]()
+    private var images = [ImageModel]()
     private var cancellables = Set<AnyCancellable>()
     
     private lazy var collectionView: UICollectionView = {
@@ -26,6 +26,11 @@ class GridViewController: UIViewController {
         layoutView()
         setupBindings()
         viewModel.fetchImages()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        collectionView.collectionViewLayout.invalidateLayout()
     }
     
     private func setupCollectionView() {
@@ -63,6 +68,7 @@ class GridViewController: UIViewController {
         view.backgroundColor = UIColor(named: K.Colors.background)
         view.addSubview(collectionView)
         setupConstrains()
+        navigationController?.isToolbarHidden = true
     }
     
     private func setupConstrains() {
@@ -78,7 +84,7 @@ extension GridViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        navigationController?.pushViewController(DetailsViewController(gridImage: images[indexPath.row]), animated: true)
+        navigationController?.pushViewController(DetailsViewController(gridImage: images[indexPath.row].fullSize), animated: true)
     }
     
 }
@@ -91,7 +97,7 @@ extension GridViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: K.cellIdentifier, for: indexPath) as? GridCollectionViewCell {
-            cell.setupCell(with: images[indexPath.row])
+            cell.setupCell(with: images[indexPath.row].preview)
             return cell
         }
         return GridCollectionViewCell()

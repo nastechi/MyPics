@@ -17,12 +17,6 @@ class DetailsViewController: UIViewController {
         return imageView
     }()
     
-    private lazy var backButton: UIButton = {
-        let button = UIButton()
-        button.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
-        return button
-    }()
-    
     init(gridImage: UIImage) {
         self.gridImage = gridImage
         super.init(nibName: nil, bundle: nil)
@@ -36,15 +30,12 @@ class DetailsViewController: UIViewController {
         super.viewDidLoad()
         layoutView()
     }
-
-    @objc private func backButtonPressed() {
-        navigationController?.popViewController(animated: true)
-    }
     
     private func layoutView() {
         view.backgroundColor = UIColor(named: K.Colors.background)
         view.addSubview(imageView)
         setupConstrains()
+        navigationController?.hidesBarsOnTap = true
     }
     
     private func setupConstrains() {
