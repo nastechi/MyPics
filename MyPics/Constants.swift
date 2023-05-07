@@ -19,7 +19,7 @@ struct K {
     }
     
     struct CollectionSizes {
-        static let numberOfItemsPerRow: CGFloat = 3
         static let spacing: CGFloat = 1
+        static let minimumItemWidth: CGFloat = 110
     }
 }

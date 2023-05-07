@@ -38,6 +38,8 @@ class GridViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        collectionView.frame = view.frame
+        collectionView.collectionViewLayout.invalidateLayout()
     }
     
     private func setupCollectionView() {
@@ -98,7 +100,8 @@ extension GridViewController: UICollectionViewDataSource {
 extension GridViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let side = (view.frame.size.width / K.CollectionSizes.numberOfItemsPerRow) - K.CollectionSizes.spacing
+        let numberOfItemsPerRow = Int(view.frame.width / K.CollectionSizes.minimumItemWidth)
+        let side = (view.frame.size.width / CGFloat(numberOfItemsPerRow)) - (K.CollectionSizes.spacing * CGFloat(numberOfItemsPerRow - 1))
         return CGSize(width: side, height: side)
     }
     
@@ -108,5 +111,9 @@ extension GridViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         K.CollectionSizes.spacing
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        UIEdgeInsets(top: K.CollectionSizes.spacing, left: K.CollectionSizes.spacing, bottom: K.CollectionSizes.spacing, right: K.CollectionSizes.spacing)
     }
 }
