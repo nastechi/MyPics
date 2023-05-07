@@ -17,4 +17,9 @@ struct K {
         static let label = "LabelColor"
         static let accent = "AccentColor"
     }
+    
+    struct CollectionSizes {
+        static let numberOfItemsPerRow: CGFloat = 3
+        static let spacing: CGFloat = 1
+    }
 }

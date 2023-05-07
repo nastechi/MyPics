@@ -15,8 +15,7 @@ class GridViewController: UIViewController {
     private var cancellables = Set<AnyCancellable>()
     
     private lazy var collectionView: UICollectionView = {
-        var layout = UICollectionViewFlowLayout()
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        let collectionView = UICollectionView(frame: view.frame, collectionViewLayout: UICollectionViewFlowLayout())
         return collectionView
     }()
     
@@ -39,7 +38,6 @@ class GridViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        collectionView.collectionViewLayout.invalidateLayout()
     }
     
     private func setupCollectionView() {
@@ -49,7 +47,7 @@ class GridViewController: UIViewController {
     }
     
     private func setupBindings() {
-            viewModel.$images
+        viewModel.$images
             .receive(on: DispatchQueue.main)
             .sink { [weak self] images in
                 
@@ -60,7 +58,7 @@ class GridViewController: UIViewController {
                 }
             }
             .store(in: &cancellables)
-        }
+    }
     
     private func goToDetailsScreen(image: UIImage) {
         navigationController?.pushViewController(DetailsViewController(gridImage: image), animated: true)
@@ -70,17 +68,7 @@ class GridViewController: UIViewController {
         view.backgroundColor = UIColor(named: K.Colors.background)
         view.addSubview(collectionView)
         view.addSubview(loader)
-        setupConstrains()
         navigationController?.isToolbarHidden = true
-    }
-    
-    private func setupConstrains() {
-        
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10).isActive = true
-        collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10).isActive = true
-        collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
     }
 }
 
@@ -110,6 +98,15 @@ extension GridViewController: UICollectionViewDataSource {
 extension GridViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        CGSize(width: view.frame.size.width / 3 - 20, height: view.frame.size.width / 3 - 20)
+        let side = (view.frame.size.width / K.CollectionSizes.numberOfItemsPerRow) - K.CollectionSizes.spacing
+        return CGSize(width: side, height: side)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        K.CollectionSizes.spacing
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        K.CollectionSizes.spacing
     }
 }

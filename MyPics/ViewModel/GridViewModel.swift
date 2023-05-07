@@ -61,7 +61,7 @@ class GridViewModel {
             guard let image = UIImage(data: data) else { return }
             guard let preview = getPreview(for: image) else { return }
             
-            let imageModel = ImageModel(url: url, preview: preview, fullSize: image)
+            let imageModel = ImageModel(preview: preview, fullSize: image)
             cache.setObject(imageModel, forKey: link as NSString)
             
             complition(imageModel)
