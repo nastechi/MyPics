@@ -7,13 +7,14 @@
 
 import UIKit
 
-class DetailsViewController: UIViewController {
+class DetailsViewController: UIViewController, UIGestureRecognizerDelegate {
     
-    let gridImage: UIImage
+    private let gridImage: UIImage
     
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = gridImage
+        imageView.isUserInteractionEnabled = true
         return imageView
     }()
     
@@ -29,24 +30,38 @@ class DetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         layoutView()
+        addPinchGesture()
+    }
+    
+    private func addPinchGesture() {
+        let pinch = UIPinchGestureRecognizer(target: self, action: #selector(didPinch(sender:)))
+        pinch.delegate = self
+        imageView.addGestureRecognizer(pinch)
+    }
+    
+    @objc func didPinch(sender: UIPinchGestureRecognizer) {
+        if sender.state == .began || sender.state == .changed {
+            let multiplier = view.frame.width / gridImage.size.width
+            setImageViewFrame(scale: sender.scale)
+        } else if sender.state == .ended || sender.state == .cancelled || sender.state == .failed {
+            UIView.animate(withDuration: 0.3) { [weak self] in
+                self?.setImageViewFrame(scale: 1)
+            }
+        }
     }
     
     private func layoutView() {
         view.backgroundColor = UIColor(named: K.Colors.background)
         view.addSubview(imageView)
-        setupConstrains()
+        setImageViewFrame(scale: 1)
         navigationController?.hidesBarsOnTap = true
     }
     
-    private func setupConstrains() {
-        
+    private func setImageViewFrame(scale: CGFloat) {
         let multiplier = view.frame.width / gridImage.size.width
         
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
-        imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
-        imageView.heightAnchor.constraint(equalToConstant: gridImage.size.height * multiplier).isActive = true
+        imageView.frame = CGRect(x: 0, y: 0, width: Int(view.frame.width * scale), height: Int(gridImage.size.height * multiplier * scale))
+        imageView.center = view.center
     }
 
 }
