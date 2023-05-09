@@ -16,7 +16,6 @@
 		099CFF722A05258700481515 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099CFF712A05258700481515 /* DetailsViewController.swift */; };
 		099CFF752A05271B00481515 /* GridViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099CFF742A05271B00481515 /* GridViewModel.swift */; };
 		099CFF7B2A05355500481515 /* GridCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099CFF7A2A05355500481515 /* GridCollectionViewCell.swift */; };
-		099CFF7E2A05526B00481515 /* CustomNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099CFF7D2A05526B00481515 /* CustomNavigationController.swift */; };
 		099CFF802A06465700481515 /* ImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099CFF7F2A06465700481515 /* ImageModel.swift */; };
 		09D9CDD02A094CF4003460A4 /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D9CDCF2A094CF4003460A4 /* CacheManager.swift */; };
 /* End PBXBuildFile section */
@@ -33,7 +32,6 @@
 		099CFF712A05258700481515 /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 		099CFF742A05271B00481515 /* GridViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridViewModel.swift; sourceTree = "<group>"; };
 		099CFF7A2A05355500481515 /* GridCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCollectionViewCell.swift; sourceTree = "<group>"; };
-		099CFF7D2A05526B00481515 /* CustomNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationController.swift; sourceTree = "<group>"; };
 		099CFF7F2A06465700481515 /* ImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageModel.swift; sourceTree = "<group>"; };
 		09D9CDCF2A094CF4003460A4 /* CacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -87,7 +85,6 @@
 			children = (
 				099CFF5F2A051FDB00481515 /* GridViewController.swift */,
 				099CFF712A05258700481515 /* DetailsViewController.swift */,
-				099CFF7D2A05526B00481515 /* CustomNavigationController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -193,7 +190,6 @@
 				099CFF5E2A051FDB00481515 /* SceneDelegate.swift in Sources */,
 				09D9CDD02A094CF4003460A4 /* CacheManager.swift in Sources */,
 				099CFF802A06465700481515 /* ImageModel.swift in Sources */,
-				099CFF7E2A05526B00481515 /* CustomNavigationController.swift in Sources */,
 				099CFF752A05271B00481515 /* GridViewModel.swift in Sources */,
 				099CFF702A05226700481515 /* Constants.swift in Sources */,
 				099CFF722A05258700481515 /* DetailsViewController.swift in Sources */,

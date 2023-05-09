@@ -27,8 +27,15 @@ class DetailsViewController: UIViewController, UIGestureRecognizerDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.isNavigationBarHidden = true
+        navigationController?.hidesBarsOnTap = false
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.isNavigationBarHidden = false
         layoutView()
         addPinchGesture()
     }

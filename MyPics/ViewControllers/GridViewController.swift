@@ -15,7 +15,9 @@ class GridViewController: UIViewController {
     private var cancellables = Set<AnyCancellable>()
     
     private lazy var collectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: view.frame, collectionViewLayout: UICollectionViewFlowLayout())
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.backgroundColor = UIColor(named: K.Colors.background)
         return collectionView
     }()
     
@@ -30,6 +32,7 @@ class GridViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.isNavigationBarHidden = true
         setupCollectionView()
         setupBindings()
         layoutView()
@@ -38,7 +41,7 @@ class GridViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        collectionView.frame = view.frame
+        setupConstrains()
         collectionView.collectionViewLayout.invalidateLayout()
     }
     
@@ -70,7 +73,14 @@ class GridViewController: UIViewController {
         view.backgroundColor = UIColor(named: K.Colors.background)
         view.addSubview(collectionView)
         view.addSubview(loader)
-        navigationController?.isToolbarHidden = true
+        setupConstrains()
+    }
+    
+    private func setupConstrains() {
+        collectionView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
     }
 }
 
