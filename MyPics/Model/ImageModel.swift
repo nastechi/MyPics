@@ -10,7 +10,7 @@ import UIKit
 class ImageModel {
     
     let preview: UIImage
-    var fullSize: UIImage
+    let fullSize: UIImage
     
     init(preview: UIImage, fullSize: UIImage) {
         self.preview = preview

@@ -11,7 +11,7 @@ import Combine
 class GridViewModel {
     
     @Published var images = [ImageModel]()
-    private let cache = NSCache<NSString, ImageModel>()
+    private let cacheManager = CacheManager()
     
     func fetchImages() {
         let session = URLSession(configuration: .default)
@@ -53,7 +53,7 @@ class GridViewModel {
     
     private func loadImage(link: String, complition: (ImageModel) -> Void) {
         
-        if let cachedImageModel = cache.object(forKey: link as NSString) {
+        if let cachedImageModel = cacheManager.getCachedImage(forLink: link) {
             complition(cachedImageModel)
         } else {
             guard let url = URL(string: link) else { return }
@@ -62,8 +62,7 @@ class GridViewModel {
             guard let preview = getPreview(for: image) else { return }
             
             let imageModel = ImageModel(preview: preview, fullSize: image)
-            cache.setObject(imageModel, forKey: link as NSString)
-            
+            cacheManager.cacheImage(imageModel: imageModel, link: link)
             complition(imageModel)
         }
     }

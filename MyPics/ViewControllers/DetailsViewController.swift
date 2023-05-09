@@ -41,7 +41,6 @@ class DetailsViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @objc func didPinch(sender: UIPinchGestureRecognizer) {
         if sender.state == .began || sender.state == .changed {
-            let multiplier = view.frame.width / gridImage.size.width
             setImageViewFrame(scale: sender.scale)
         } else if sender.state == .ended || sender.state == .cancelled || sender.state == .failed {
             UIView.animate(withDuration: 0.3) { [weak self] in
