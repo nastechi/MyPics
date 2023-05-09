@@ -8,7 +8,7 @@
 import UIKit
 import Combine
 
-class GridViewController: UIViewController {
+final class GridViewController: UIViewController {
     
     private var viewModel = GridViewModel()
     private var images = [ImageModel]()

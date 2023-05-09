@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ImageModel {
+struct ImageModel {
     
     let preview: UIImage
     let fullSize: UIImage

@@ -8,7 +8,7 @@
 import UIKit
 import Combine
 
-class GridViewModel {
+final class GridViewModel {
     
     @Published var images = [ImageModel]()
     private let cacheManager = CacheManager()

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DetailsViewController: UIViewController, UIGestureRecognizerDelegate {
+final class DetailsViewController: UIViewController, UIGestureRecognizerDelegate {
     
     private let gridImage: UIImage
     
@@ -46,7 +46,7 @@ class DetailsViewController: UIViewController, UIGestureRecognizerDelegate {
         imageView.addGestureRecognizer(pinch)
     }
     
-    @objc func didPinch(sender: UIPinchGestureRecognizer) {
+    @objc private func didPinch(sender: UIPinchGestureRecognizer) {
         if sender.state == .began || sender.state == .changed {
             setImageViewFrame(scale: sender.scale)
         } else if sender.state == .ended || sender.state == .cancelled || sender.state == .failed {
