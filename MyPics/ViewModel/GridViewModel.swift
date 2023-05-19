@@ -53,18 +53,24 @@ final class GridViewModel {
     
     private func loadImage(link: String, complition: (ImageModel) -> Void) {
         
-        if let cachedImageModel = cacheManager.getCachedImage(forLink: link) {
-            complition(cachedImageModel)
+        if let cachedPreview = cacheManager.getCachedPreview(forLink: link) {
+            let imageModel = ImageModel(link: link, preview: cachedPreview)
+            complition(imageModel)
         } else {
             guard let url = URL(string: link) else { return }
             guard let data = try? Data(contentsOf: url) else { return }
             guard let image = UIImage(data: data) else { return }
             guard let preview = getPreview(for: image) else { return }
             
-            let imageModel = ImageModel(preview: preview, fullSize: image)
-            cacheManager.cacheImage(imageModel: imageModel, link: link)
+            let imageModel = ImageModel(link: link, preview: preview, fullSize: image)
+            cacheManager.cacheImage(image, link: link + "_full")
+            cacheManager.cacheImage(preview, link: link)
             complition(imageModel)
         }
+    }
+    
+    func getFullImage(forLink link: String) -> UIImage? {
+        cacheManager.getCachedFullSize(forLink: link)
     }
     
     private func getPreview(for image: UIImage) -> UIImage? {

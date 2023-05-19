@@ -88,7 +88,13 @@ extension GridViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        navigationController?.pushViewController(DetailsViewController(gridImage: images[indexPath.row].fullSize), animated: true)
+        
+        let link = images[indexPath.row].link
+        if let fullImage = viewModel.getFullImage(forLink: link) {
+            let detailVC = DetailsViewController(gridImage: fullImage)
+            navigationController?.pushViewController(detailVC, animated: true)
+        } else {
+        }
     }
 }
 

@@ -19,30 +19,41 @@ class CacheManager {
         }
     }
     
-    func cacheImage(imageModel: ImageModel, link: String) {
+    func cacheImage(_ image: UIImage, link: String) {
         
         guard let url = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
-        let fullImageUrl = url.appendingPathComponent("cache").appendingPathComponent("\(cleanLink(link: link)).png")
-        let previewUrl = url.appendingPathComponent("cache").appendingPathComponent("\(cleanLink(link: link))_preview.png")
-        
-        fileManager.createFile(atPath: fullImageUrl.path(), contents: imageModel.fullSize.pngData())
-        fileManager.createFile(atPath: previewUrl.path(), contents: imageModel.preview.pngData())
+        let imageUrl = url.appendingPathComponent("cache").appendingPathComponent("\(cleanLink(link: link)).png")
+
+        fileManager.createFile(atPath: imageUrl.path(), contents: image.pngData())
     }
     
-    func getCachedImage(forLink link: String) -> ImageModel? {
+    func getCachedPreview(forLink link: String) -> UIImage? {
         
         guard let url = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else { return nil }
-        let fullImageUrl = url.appendingPathComponent("cache").appendingPathComponent("\(cleanLink(link: link)).png")
-        let previewUrl = url.appendingPathComponent("cache").appendingPathComponent("\(cleanLink(link: link))_preview.png")
-        
-        guard fileManager.fileExists(atPath: fullImageUrl.path()) else { return nil }
-        guard let fullImage = loadImage(forUrl: fullImageUrl), let preview = loadImage(forUrl: previewUrl) else { return nil }
-        
-        return ImageModel(preview: preview, fullSize: fullImage)
+        let imageName = "\(cleanLink(link: link))"
+        let previewUrl = url.appendingPathComponent("cache").appendingPathComponent(imageName + ".png")
+
+        guard fileManager.fileExists(atPath: previewUrl.path()) else { return nil }
+        guard let preview = loadCachedImage(forUrl: previewUrl) else { return nil }
+
+        return preview
     }
     
-    private func loadImage(forUrl url: URL) -> UIImage? {
+    func getCachedFullSize(forLink link: String) -> UIImage? {
         
+        guard let url = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else { return nil }
+        let imageName = "\(cleanLink(link: link))"
+        let fullImageUrl = url.appendingPathComponent("cache").appendingPathComponent(imageName + "full.png")
+        
+        guard fileManager.fileExists(atPath: fullImageUrl.path()) else {
+            return nil }
+        guard let fullImage = loadCachedImage(forUrl: fullImageUrl) else {
+            return nil }
+        
+        return fullImage
+    }
+    
+    private func loadCachedImage(forUrl url: URL) -> UIImage? {
         guard let data = try? Data(contentsOf: url) else { return nil }
         return UIImage(data: data)
     }
@@ -56,7 +67,6 @@ class CacheManager {
                 result.append(char)
             }
         }
-        
         return result
     }
 }
